@@ -1,0 +1,58 @@
+<f:layout name="Default" />
+
+This Template is responsible for creating a table of domain objects.
+
+If you modify this template, do not forget to change the overwrite settings
+in /Configuration/ExtensionBuilder/settings.yaml:
+  Resources:
+    Private:
+      Templates:
+        List.html: keep
+
+Otherwise your changes will be overwritten the next time you save the extension in the extension builder
+
+<f:section name="content">
+<h1>Pushnachrichten</h1>
+
+<f:flashMessages />
+
+
+<div>
+Nachricht (DE): <br>
+<f:form.textarea cols="60" rows="5" name="nachricht_de" value="This is shown inside the textarea" />
+<br><br>
+Nachricht (EN): <br>
+<f:form.textarea cols="60" rows="5" name="nachricht_en" value="This is shown inside the textarea" />
+</div>
+
+<div>
+<f:form.select multiple="20" size="10" style="width:500px;" property="investigator" 
+value="{inquiry.investigator}" options="{item1: 'item 1', item2: 'item 2'}" 
+optionLabelField="name" />
+</div>
+
+
+<table  class="tx_q8ypushmessages" >
+	<tr>
+		<th><f:translate key="tx_q8ypushmessages_domain_model_tokenrecords.token" /></th>
+		<th><f:translate key="tx_q8ypushmessages_domain_model_tokenrecords.timestamp" /></th>
+		<th><f:translate key="tx_q8ypushmessages_domain_model_tokenrecords.active" /></th>
+		<th><f:translate key="tx_q8ypushmessages_domain_model_tokenrecords.feuseruid" /></th>
+		<th> </th>
+		<th> </th>
+	</tr>
+
+	<f:for each="{tokenRecordss}" as="tokenRecords">
+		<tr>
+			<td><f:link.action action="show" arguments="{tokenRecords : tokenRecords}"> {tokenRecords.token}</f:link.action></td>
+			<td><f:link.action action="show" arguments="{tokenRecords : tokenRecords}"> {tokenRecords.timestamp -> f:format.date()}</f:link.action></td>
+			<td><f:link.action action="show" arguments="{tokenRecords : tokenRecords}"> {tokenRecords.active}</f:link.action></td>
+			<td><f:link.action action="show" arguments="{tokenRecords : tokenRecords}"> {tokenRecords.feuseruid}</f:link.action></td>
+			<td><f:link.action action="edit" arguments="{tokenRecords : tokenRecords}">Edit</f:link.action></td>
+			<td><f:link.action action="delete" arguments="{tokenRecords : tokenRecords}">Delete</f:link.action></td>
+		</tr>
+	</f:for>
+</table>
+
+<f:link.action action="new">New TokenRecords</f:link.action>
+</f:section>
