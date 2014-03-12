@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2014-03-12T16:07:04Z" product-name="q8y_pushmessages">
+		<header/>
+		<body>
+
+			<trans-unit id="tx_q8ypushmessages_domain_model_tokenrecords">
+				<source>Token Records</source>
+			</trans-unit>
+			<trans-unit id="tx_q8ypushmessages_domain_model_tokenrecords.token">
+				<source>Token</source>
+			</trans-unit>
+			<trans-unit id="tx_q8ypushmessages_domain_model_tokenrecords.timestamp">
+				<source>Timestamp</source>
+			</trans-unit>
+			<trans-unit id="tx_q8ypushmessages_domain_model_tokenrecords.active">
+				<source>Active</source>
+			</trans-unit>
+			<trans-unit id="tx_q8ypushmessages_domain_model_tokenrecords.feuseruid">
+				<source>Feuseruid</source>
+			</trans-unit>
+
+		</body>
+	</file>
+</xliff>

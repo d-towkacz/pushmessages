@@ -1,0 +1,14 @@
+module.tx_q8ypushmessages {
+	view {
+		# cat=module.tx_q8ypushmessages/file; type=string; label=Path to template root (BE)
+		templateRootPath = EXT:q8y_pushmessages/Resources/Private/Backend/Templates/
+		# cat=module.tx_q8ypushmessages/file; type=string; label=Path to template partials (BE)
+		partialRootPath = EXT:q8y_pushmessages/Resources/Private/Backend/Partials/
+		# cat=module.tx_q8ypushmessages/file; type=string; label=Path to template layouts (BE)
+		layoutRootPath = EXT:q8y_pushmessages/Resources/Private/Backend/Layouts/
+	}
+	persistence {
+		# cat=module.tx_q8ypushmessages//a; type=string; label=Default storage PID
+		storagePid =
+	}
+}
