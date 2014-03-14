@@ -32,6 +32,11 @@ namespace TYPO3\Q8yPushmessages\Controller;
  *
  */
 class TokenRecordsController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
+	
+	
+	
+	protected $pageRenderer;
+	
 
 	/**
 	 * action list
@@ -40,6 +45,10 @@ class TokenRecordsController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
 	 */
 	public function listAction() {
 		//$tokenRecordss = $this->tokenRecordsRepository->findAll();
+		
+	    $dmail = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance("TYPO3\Q8yPushmessages\Domain\Repository\DmailRepository"); 
+		//$dmail->init();
+		 $tokenRecordss = $dmail->showDmailRecipientLists();
 		
 		$this->view->assign('tokenRecordss', $tokenRecordss);
 	}

@@ -1,4 +1,21 @@
-<f:be.container>
+{namespace push=TYPO3\CMS\Lang\ViewHelpers}
+<push:be.container
+	enableJumpToUrl="0"
+	enableClickMenu="0"
+	loadPrototype="0"
+	loadScriptaculous="0"
+	loadExtJs="0"
+	loadJQuery="true"
+	addJsFiles="{
+		0: '{f:uri.resource(path:\'Javascript/jquery.dataTables-1.9.4.min.js\')}',
+		1: '{f:uri.resource(path:\'Javascript/jquery.plugin.min.js\')}',
+		2: '{f:uri.resource(path:\'Javascript/jquery.maxlength.min.js\')}',
+		3: '{f:uri.resource(path:\'Javascript/jquery.datetimepicker.js\')}'
+	}"
+	addCssFiles="{
+		0: '{f:uri.resource(path:\'Styles/PushMessages.css\')}',
+		1: '{f:uri.resource(path:\'Styles/jquery.datetimepicker.css\')}'
+	}">
 	<div class="typo3-fullDoc">
 		<div id="typo3-docheader">
 			<div id="typo3-docheader-row1">
@@ -12,10 +29,7 @@
 			<div id="typo3-docheader-row2">
 				<div class="docheader-row2-left">
 					<f:be.buttons.csh />
-					<f:be.menus.actionMenu>
-						<f:be.menus.actionMenuItem label="Overview" controller="" action="list" />
-						
-					</f:be.menus.actionMenu>
+					
 				</div>
 				<div class="docheader-row2-right">
 					<f:be.pagePath />
@@ -31,4 +45,4 @@
 			</div>
 		</div>
 	</div>
-</f:be.container>
+</push:be.container>

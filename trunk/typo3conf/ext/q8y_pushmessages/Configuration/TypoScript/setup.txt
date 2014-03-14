@@ -8,4 +8,11 @@ module.tx_q8ypushmessages {
 		partialRootPath = {$module.tx_q8ypushmessages.view.partialRootPath}
 		layoutRootPath = {$module.tx_q8ypushmessages.view.layoutRootPath}
 	}
+	
+	settings {
+		DirectMailPID = 79,80,81
+		
+		
+		
+	}
 }
