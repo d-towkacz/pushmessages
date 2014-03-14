@@ -1,17 +1,30 @@
 <f:layout name="Default" />
 
-This Template is responsible for creating a table of domain objects.
-
-If you modify this template, do not forget to change the overwrite settings
-in /Configuration/ExtensionBuilder/settings.yaml:
-  Resources:
-    Private:
-      Templates:
-        List.html: keep
-
-Otherwise your changes will be overwritten the next time you save the extension in the extension builder
 
 <f:section name="content">
+<script type="text/javascript">
+jQuery(document).ready(function(){
+	var tableSetup = {
+		iDisplayLength: 1000,
+		bPaginate: false,
+		bSearch: false,
+		bInfo: false,
+		bFilter: false,
+		sScrollY: '400px',
+		aoColumnDefs: [{
+			bSortable: false,
+			aTargets: ['notSortable']
+		}]
+	}
+	/* DataTable plugin activate  */
+	jQuery('.selectionList, .translationList').dataTable(tableSetup);
+	/* Maxlength plugin for textarea activate  */
+	jQuery("textarea").maxlength({max: 217});
+	/* Datetime picker plugin activate  */
+	jQuery('.datetime').datetimepicker();
+});
+</script>
+
 <h1>Pushnachrichten</h1>
 
 <f:flashMessages />
@@ -19,40 +32,53 @@ Otherwise your changes will be overwritten the next time you save the extension 
 
 <div>
 Nachricht (DE): <br>
-<f:form.textarea cols="60" rows="5" name="nachricht_de" value="This is shown inside the textarea" />
-<br><br>
+<f:form.textarea cols="60" rows="5" name="nachricht_de" value="" />
+<br>
+<br>
+
 Nachricht (EN): <br>
-<f:form.textarea cols="60" rows="5" name="nachricht_en" value="This is shown inside the textarea" />
+<f:form.textarea cols="60" rows="5" name="nachricht_en" value="" />
 </div>
 
 <div>
-<f:form.select multiple="20" size="10" style="width:500px;" property="investigator" 
-value="{inquiry.investigator}" options="{item1: 'item 1', item2: 'item 2'}" 
-optionLabelField="name" />
+
 </div>
 
 
-<table  class="tx_q8ypushmessages" >
-	<tr>
-		<th><f:translate key="tx_q8ypushmessages_domain_model_tokenrecords.token" /></th>
-		<th><f:translate key="tx_q8ypushmessages_domain_model_tokenrecords.timestamp" /></th>
-		<th><f:translate key="tx_q8ypushmessages_domain_model_tokenrecords.active" /></th>
-		<th><f:translate key="tx_q8ypushmessages_domain_model_tokenrecords.feuseruid" /></th>
-		<th> </th>
-		<th> </th>
-	</tr>
+<br><br>
 
-	<f:for each="{tokenRecordss}" as="tokenRecords">
-		<tr>
-			<td><f:link.action action="show" arguments="{tokenRecords : tokenRecords}"> {tokenRecords.token}</f:link.action></td>
-			<td><f:link.action action="show" arguments="{tokenRecords : tokenRecords}"> {tokenRecords.timestamp -> f:format.date()}</f:link.action></td>
-			<td><f:link.action action="show" arguments="{tokenRecords : tokenRecords}"> {tokenRecords.active}</f:link.action></td>
-			<td><f:link.action action="show" arguments="{tokenRecords : tokenRecords}"> {tokenRecords.feuseruid}</f:link.action></td>
-			<td><f:link.action action="edit" arguments="{tokenRecords : tokenRecords}">Edit</f:link.action></td>
-			<td><f:link.action action="delete" arguments="{tokenRecords : tokenRecords}">Delete</f:link.action></td>
-		</tr>
-	</f:for>
+
+
+<table border="0" cellpadding="0" cellspacing="0" class="gridTable selectionList">
+		<thead>
+			<tr>
+				<td class="check notSortable" style="width:10px !important;">&nbsp;</td>
+				<td class="" style="width:80% !important;"><f:translate key="table.language">Versandliste</f:translate></td>
+				<td class="" style="width:10% !important;"><f:translate key="table.locale">Empfanger</f:translate></td>
+				<td class="" style="width:10% !important;"><f:translate key="table.active">Aktive Gerate</f:translate></td>
+			</tr>
+		</thead>
+		<tbody>
+			<f:for each="{tokenRecordss}" as="token" iteration="iteration">
+				<tr class="{f:if(condition: language.selected, then: 'selected', else: '')}">
+					<td class="check"><f:form.checkbox name="languageSelectionForm[selectedLanguages]sw[{iteration.index}]" value="{language.locale}" checked="{f:if(condition: language.selected, then: 'checked', else: '')}" id="locale-{language.locale}" /></td>
+					<td class="language"><label for="locale-{language.locale}"><f:format.raw>{token.title}</f:format.raw></label></td>
+					<td class="locale"><label for="locale-{language.locale}"><f:format.raw>{token.editLink}</f:format.raw></label></td>
+					<td class="active"><label for="locale-{language.locale}">{language.locale}</label></td>
+				</tr>
+			</f:for>
+		</tbody>
 </table>
 
-<f:link.action action="new">New TokenRecords</f:link.action>
+
+<p style="padding-top: 30px;">
+	Versandzeitpunkt: <f:form.textfield name="myTextBox" value="" class="datetime"/>
+</p>
+
+<br>
+
+<p>
+	<f:form.submit name="mySubmit" value="An alle Empfanger schicken" />
+</p>
+
 </f:section>

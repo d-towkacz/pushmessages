@@ -41,11 +41,11 @@ class TokenRecords extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	protected $token;
 
 	/**
-	 * timestamp
+	 * last_login
 	 *
 	 * @var \DateTime
 	 */
-	protected $timestamp;
+	protected $last_login;
 
 	/**
 	 * active
@@ -81,22 +81,22 @@ class TokenRecords extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	}
 
 	/**
-	 * Returns the timestamp
+	 * Returns the last_login
 	 *
-	 * @return \DateTime $timestamp
+	 * @return \DateTime $last_login
 	 */
-	public function getTimestamp() {
-		return $this->timestamp;
+	public function getLast_login() {
+		return $this->last_login;
 	}
 
 	/**
-	 * Sets the timestamp
+	 * Sets the last_login
 	 *
-	 * @param \DateTime $timestamp
+	 * @param \DateTime $last_login
 	 * @return void
 	 */
-	public function setTimestamp($timestamp) {
-		$this->timestamp = $timestamp;
+	public function setTimestamp($last_login) {
+		$this->last_login = $last_login;
 	}
 
 	/**
