@@ -22,7 +22,7 @@ class RegisterPushwooshToken {
 			// check for VC header
 			$headers = \tx_t3local_div::emu_apache_request_headers(); 
 			$pushToken = isset($headers["vc-push-token"]) ? $headers["vc-push-token"] : $headers["push-token"];
-			$tokenActive = isset($headers["vc-token-active"]) ? $headers["vc-token-active"] : $headers["active"];
+			$tokenActive = isset($headers["vc-push-active"]) ? $headers["vc-push-active"] : $headers["active"];
 
 			if ($pushToken > '') {
 				
