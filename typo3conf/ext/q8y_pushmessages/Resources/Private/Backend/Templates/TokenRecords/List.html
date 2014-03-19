@@ -4,6 +4,7 @@
 <f:section name="content">
 <script type="text/javascript">
 jQuery(document).ready(function(){
+	/* DataTable plugin settings  */
 	var tableSetup = {
 		iDisplayLength: 1000,
 		bPaginate: false,
@@ -14,7 +15,8 @@ jQuery(document).ready(function(){
 		aoColumnDefs: [{
 			bSortable: false,
 			aTargets: ['notSortable']
-		}]
+		}],
+     
 	}
 	/* DataTable plugin activate  */
 	jQuery('.selectionList, .translationList').dataTable(tableSetup);
@@ -23,13 +25,15 @@ jQuery(document).ready(function(){
 	/* Datetime picker plugin activate  */
 	jQuery('.datetime').datetimepicker();
 });
+
+
 </script>
 
 <h1>Pushnachrichten</h1>
 
 <f:flashMessages />
 
-
+<f:form action="sendMessages"  name="TokenRecords" object="{TokenRecords}">
 <div>
 Nachricht (DE): <br>
 <f:form.textarea cols="60" rows="5" name="nachricht_de" value="" />
@@ -61,10 +65,10 @@ Nachricht (EN): <br>
 		<tbody>
 			<f:for each="{tokenRecordss}" as="token" iteration="iteration">
 				<tr class="{f:if(condition: language.selected, then: 'selected', else: '')}">
-					<td class="check"><f:form.checkbox name="languageSelectionForm[selectedLanguages]sw[{iteration.index}]" value="{language.locale}" checked="{f:if(condition: language.selected, then: 'checked', else: '')}" id="locale-{language.locale}" /></td>
-					<td class="language"><label for="locale-{language.locale}"><f:format.raw>{token.title}</f:format.raw></label></td>
-					<td class="locale"><label for="locale-{language.locale}"><f:format.raw>{token.editLink}</f:format.raw></label></td>
-					<td class="active"><label for="locale-{language.locale}">{language.locale}</label></td>
+					<td class="check"><f:form.checkbox name="languageSelectionForm[selectedLanguages]sw[{iteration.index}]" value="{iteration.index}" id="locale-{iteration.index}" /></td>
+					<td class="language"><label for="locale-{iteration.index}"><f:format.raw>{token.title}</f:format.raw></label></td>
+					<td class="locale"><label for="locale-{iteration.index}" style="text-align:center;"><f:format.raw><strong>{token.users_count}</strong></f:format.raw></label></td>
+					<td class="active"><label for="locale-{iteration.index}" style="text-align:center;"><strong>0</strong></label></td>
 				</tr>
 			</f:for>
 		</tbody>
@@ -72,7 +76,7 @@ Nachricht (EN): <br>
 
 
 <p style="padding-top: 30px;">
-	Versandzeitpunkt: <f:form.textfield name="myTextBox" value="" class="datetime"/>
+	Versandzeitpunkt: <f:form.textfield name="datetime" value="" class="datetime"/>
 </p>
 
 <br>
@@ -80,5 +84,7 @@ Nachricht (EN): <br>
 <p>
 	<f:form.submit name="mySubmit" value="An alle Empfanger schicken" />
 </p>
+
+</f:form>
 
 </f:section>

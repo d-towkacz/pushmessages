@@ -28,14 +28,19 @@ namespace TYPO3\Q8yPushmessages\Controller;
  *
  *
  * @package q8y_pushmessages
+ * @author d.towkacz@quintinity.de
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  *
  */
+
+include_once(PATH_site.'typo3conf/ext/q8y_pushmessages/Classes/Util/PushWooshCaller.php'); 
+ 
 class TokenRecordsController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
 	
 	
 	
 	protected $pageRenderer;
+	public $extensionSettings;
 	
 
 	/**
@@ -43,12 +48,21 @@ class TokenRecordsController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
 	 *
 	 * @return void
 	 */
+	
+	protected function initializeAction()
+	{
+		# Settings from Extension manager conf.
+		$this->extensionSettings = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['q8y_pushmessages']);
+	}
+	 
 	public function listAction() {
 		//$tokenRecordss = $this->tokenRecordsRepository->findAll();
 		
+		# Init DirectMail utility
+		$dmail_folder = $this->extensionSettings['derectMailPID'];
 	    $dmail = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance("TYPO3\Q8yPushmessages\Domain\Repository\DmailRepository"); 
-		//$dmail->init();
-		 $tokenRecordss = $dmail->showDmailRecipientLists();
+
+		$tokenRecordss = $dmail->showDmailRecipientLists($dmail_folder);
 		
 		$this->view->assign('tokenRecordss', $tokenRecordss);
 	}
@@ -70,7 +84,31 @@ class TokenRecordsController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
 	 * @return void
 	 */
 	public function sendMessagesAction() {
-
+		
+	   # Clear inactive	tokens
+		
+		
+	   $pushwoosh = new \PushWooshCaller;
+	   $POSTvars = $this->request->getArguments();
+	   
+	   # Set PushWoosh settings
+	   $pushwoosh->AUTH_KEY = $this->extensionSettings['authKey'];
+	   $pushwoosh->PW_APPLICATION = $this->extensionSettings['appCode'];
+	   $pushwoosh->url_api = $this->extensionSettings['apiUrl'];
+	   
+	   if ($POSTvars['datetime'])
+	   {
+	   		$date = new \DateTime($POSTvars['datetime']);
+	   		$date->setTimezone(new \DateTimeZone($this->extensionSettings['apiTimezone']));
+	   		$message_date = $date->format($this->extensionSettings['apiFormatDate']);
+	   }		
+	   else $message_date = 'now';
+	   $pushwoosh->date = $message_date;
+	   
+	   
+	   print_r($message_date);	
+	   exit;
+       $this->redirect('list');    
 	}
 
 	/**

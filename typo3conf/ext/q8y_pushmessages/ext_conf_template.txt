@@ -1,0 +1,12 @@
+  # cat=pushwoosh_settings; type=string; label=Application code
+appCode = FB1B0-99CCD
+  # cat=pushwoosh_settings; type=string; label=Authorization key
+authKey = 3UJMiWGR2Y87aSikeSz/3jrlxrmQdS2AlnNYNTFY/w6bS5j83XGMGNq1vVThvDMcovnVMm8DswV2CzqnZDm2
+  # cat=pushwoosh_settings; type=string; label=PushWoosh API URL  
+apiUrl = https://cp.pushwoosh.com/json/1.3/
+  # cat=pushwoosh_settings; type=string; label=PushWoosh TimeZone server  
+apiTimezone = Europe/London
+  # cat=pushwoosh_settings; type=string; label=PushWoosh API format date
+apiFormatDate = Y-m-d H:i   
+  # cat=directmail_settings; type=string; label=Direct Mail PIDs
+derectMailPID = 48,49
