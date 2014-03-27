@@ -55,7 +55,7 @@ class DmailRepository extends \tx_directmail_recipient_list {
 			$this->queryGenerator = \t3lib_div::makeInstance('mailSelect');
 			
 			$this->id = intval($dmail_folder);
-			$result = $this->cmd_compileMailGroup(intval($row['uid']));
+			@$result = $this->cmd_compileMailGroup(intval($row['uid']));
 			 			
 			$count = 0;
 			$idLists = $result['queryInfo']['id_lists'];
@@ -63,14 +63,77 @@ class DmailRepository extends \tx_directmail_recipient_list {
 			$out_array[$array_count]['editLink'] = $this->editLink('sys_dmail_group',$row['uid']);
 			$out_array[$array_count]['title'] = '<strong>'.htmlspecialchars(\TYPO3\CMS\Core\Utility\GeneralUtility::fixed_lgd_cs($row['title'],30)).'</strong>&nbsp;&nbsp;';
 			$out_array[$array_count]['users_count'] = count($idLists['fe_users']);
-
+			$out_array[$array_count]['active_array'] = "-";
+			
+			@$users_comma = implode(',',$idLists['fe_users']);
+			if ($users_comma != '')
+			{
+				$array_active = $this->selectActiveUsers($users_comma);
+				$count_active = count($array_active);
+				if ($count_active > 0) {
+					$out_array[$array_count]['active_array'] = "<span style='color:green;'>".$count_active."</span>";
+					$out_array[$array_count]['active_list'] = $array_active;
+				}
+				
+				
+				
+			}	
 			
 			$array_count++;
 			
 
 		}
+		
 
 		return $out_array;
+	}
+	
+	
+	
+	public function selectActiveUsers($comma_array)
+	{
+	
+		
+		
+		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			'feuseruid,token',
+			'tx_q8ypushmessages_domain_model_tokenrecords',
+			'active = 1 AND feuseruid IN ('.$comma_array.')'
+		);
+		
+		while($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
+		
+		   $out[] = $row['feuseruid']; 
+		
+		}
+		return 	$out;
+		
+	}
+	
+	public function selectActiveTokens($users_array)
+	{
+		$out = array();
+		if (count($users_array) > 0)
+		{
+		$users_array = array_unique($users_array);
+		$comma_array = implode(",", $users_array);
+		
+		
+		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			'feuseruid,token',
+			'tx_q8ypushmessages_domain_model_tokenrecords',
+			'active = 1 AND feuseruid IN ('.$comma_array.')'
+		);
+		
+		while($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
+		
+		   $out[] = $row['token'];
+		   
+		
+		}
+		}
+		return 	$out;
+		
 	}
     
 	 
