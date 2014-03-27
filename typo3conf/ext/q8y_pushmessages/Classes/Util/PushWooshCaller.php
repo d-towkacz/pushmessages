@@ -74,24 +74,28 @@ class PushWooshCaller {
     }
  
     public function pwCall( $action, $data = array() ) {
-        $url = $this->$url_api.$action;
+        $url = $this->url_api.$action;
         $json = json_encode( array( 'request' => $data ) );
-        $res = doPostRequest( $url, $json, 'Content-Type: application/json' );
-        print_r( @json_decode( $res, true ) );
+        $res = $this->doPostRequest( $url, $json, 'Content-Type: application/json' );
+        return @json_decode( $res, true );
     }
  
     public function sendPush() {
-		$this->pwCall( 'createMessage', array(
+		return $this->pwCall( 'createMessage', array(
         	'application' => $this->PW_APPLICATION,
         	'auth' => $this->AUTH_KEY,
         	'notifications' => array(
                     array(
                         'send_date' => $this->date,
-                        'content' => 'test test test',
+                        'content' => array(
+                        	"en" => $this->text_en,
+                        	"de" => $this->text_de
+                        ),
+                        'ios_trim_content' => 0,
                         //'ios_badges' => 3,
-                        'data' => array( 'custom' => 'json data' ),
+                        'data' => array( 'custom' => 'q8y_pushwoosh' ),
                         //'link' => 'http://pushwoosh.com/',
-                        'devices' => array('22d52079ba5eb188e435e10fdb038eb61fbf5d4c9b88150f43c1b76ca6b43477'),
+                        'devices' => $this->devices,
                     )
                 )
             )

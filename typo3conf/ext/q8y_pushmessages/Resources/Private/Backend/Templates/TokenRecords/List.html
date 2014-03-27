@@ -20,8 +20,23 @@ jQuery(document).ready(function(){
 	}
 	/* DataTable plugin activate  */
 	jQuery('.selectionList, .translationList').dataTable(tableSetup);
+	if (jQuery(".gridTable tr").length < 20)
+	{
+		var cnt_tr = jQuery(".gridTable tr").length;
+		jQuery(".dataTables_scrollBody").css({"height":19+cnt_tr*19+"px"});
+	}
+	jQuery(".chk_select").change(function(){
+		var id_chk = jQuery(this).attr("id");
+		if (jQuery(this).prop("checked"))
+		{
+			jQuery(".active-"+id_chk).attr("name","tx_q8ypushmessages_tools_q8ypushmessagestokenrecords[active][]");
+		} else
+		{
+			jQuery(".active-"+id_chk).attr("name","")
+		}
+	});
 	/* Maxlength plugin for textarea activate  */
-	jQuery("textarea").maxlength({max: 217});
+	jQuery("textarea").maxlength({max: 205});
 	/* Datetime picker plugin activate  */
 	jQuery('.datetime').datetimepicker();
 });
@@ -64,11 +79,15 @@ Nachricht (EN): <br>
 		</thead>
 		<tbody>
 			<f:for each="{tokenRecordss}" as="token" iteration="iteration">
-				<tr class="{f:if(condition: language.selected, then: 'selected', else: '')}">
-					<td class="check"><f:form.checkbox name="languageSelectionForm[selectedLanguages]sw[{iteration.index}]" value="{iteration.index}" id="locale-{iteration.index}" /></td>
+				<tr class="{f:if(condition: token.selected, then: 'selected', else: '')}">
+					<td class="check"><f:form.checkbox name="languageSelectionForm[selectedLanguages][{iteration.index}]" value="{token.locale}" checked="{f:if(condition: token.selected, then: 'checked', else: '')}" class="chk_select" id="chk-{iteration.index}" /></td>
 					<td class="language"><label for="locale-{iteration.index}"><f:format.raw>{token.title}</f:format.raw></label></td>
-					<td class="locale"><label for="locale-{iteration.index}" style="text-align:center;"><f:format.raw><strong>{token.users_count}</strong></f:format.raw></label></td>
-					<td class="active"><label for="locale-{iteration.index}" style="text-align:center;"><strong>0</strong></label></td>
+					<td class="locale"><label for="locale-{iteration.index}" style="text-align:center;"><f:format.raw><strong>{token.users_count}</strong></f:format.raw><span class="t3-icon t3-icon-status t3-icon-status-user t3-icon-pagetree-folder-contains-fe_users"></span></label></td>
+					<td class="active"><label for="locale-{iteration.index}" style="text-align:center;"><strong><f:format.raw>{token.active_array}</f:format.raw></strong><span class="t3-icon t3-icon-status t3-icon-status-user t3-icon-pagetree-folder-contains-fe_users"></span></label>
+						<f:for each="{token.active_list}" as="active_user" iteration="cnt">
+						    <f:form.hidden name="" class="active-chk-{iteration.index}" value="{active_user}" />        
+						</f:for>
+					</td>
 				</tr>
 			</f:for>
 		</tbody>

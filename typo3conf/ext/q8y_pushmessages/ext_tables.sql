@@ -23,9 +23,6 @@ CREATE TABLE tx_q8ypushmessages_domain_model_tokenrecords (
 
 	t3_origuid int(11) DEFAULT '0' NOT NULL,
 
-	PRIMARY KEY (uid),
-	KEY parent (pid),
-	KEY t3ver_oid (t3ver_oid,t3ver_wsid),
-	KEY language (l10n_parent,sys_language_uid)
+	PRIMARY KEY (uid)
 
 );

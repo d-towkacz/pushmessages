@@ -91,11 +91,18 @@ class TokenRecordsController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
 	   $pushwoosh = new \PushWooshCaller;
 	   $POSTvars = $this->request->getArguments();
 	   
+	   
+	   $dmail = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance("TYPO3\Q8yPushmessages\Domain\Repository\DmailRepository");
+	   $devices = $dmail->selectActiveTokens($POSTvars['active']); 
+	   
+
 	   # Set PushWoosh settings
 	   $pushwoosh->AUTH_KEY = $this->extensionSettings['authKey'];
 	   $pushwoosh->PW_APPLICATION = $this->extensionSettings['appCode'];
 	   $pushwoosh->url_api = $this->extensionSettings['apiUrl'];
-	   
+	   $pushwoosh->text_en = $POSTvars['nachricht_en'];
+	   $pushwoosh->text_de = $POSTvars['nachricht_de'];
+	   $pushwoosh->devices = $devices;
 	   if ($POSTvars['datetime'])
 	   {
 	   		$date = new \DateTime($POSTvars['datetime']);
@@ -105,9 +112,15 @@ class TokenRecordsController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
 	   else $message_date = 'now';
 	   $pushwoosh->date = $message_date;
 	   
+	   $result_push = $pushwoosh->sendPush();
+	   if ($result_push['status_code'] == 200)
+	   {
+		   $this->flashMessageContainer->add('Your message has been sent to '.count($devices).' users. ','Ok!', \TYPO3\CMS\Core\Messaging\FlashMessage::OK );
+	   } else
+	   {
+		   $this->flashMessageContainer->add($result_push['status_message'],'Error code: '.$result_push['status_code'], \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR );
+	   }
 	   
-	   print_r($message_date);	
-	   exit;
        $this->redirect('list');    
 	}
 
