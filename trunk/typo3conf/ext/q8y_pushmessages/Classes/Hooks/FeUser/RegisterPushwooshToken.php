@@ -116,7 +116,7 @@ class RegisterPushwooshToken {
 					if ($sessionData['ses_userid'] && $pushToken > '') {
 							
 						$table = 'tx_q8ypushmessages_domain_model_tokenrecords';
-
+						$where_clause = "token = '{$pushToken}' AND feuseruid ={$sessionData['ses_userid']}";
 						$res = $GLOBALS['TYPO3_DB']->exec_DELETEquery($table, $where_clause);
 								
 						if (!$res) {
