@@ -60,11 +60,20 @@ class TokenRecordsController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
 		
 		# Init DirectMail utility
 		$dmail_folder = $this->extensionSettings['derectMailPID'];
+	    $dmail_comma = explode(",", $dmail_folder);
 	    $dmail = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance("TYPO3\Q8yPushmessages\Domain\Repository\DmailRepository"); 
-
-		$tokenRecordss = $dmail->showDmailRecipientLists($dmail_folder);
 		
-		$this->view->assign('tokenRecordss', $tokenRecordss);
+		$out_array = array();
+		foreach ($dmail_comma as $folder)
+		{
+			$tokenRecordss = $dmail->showDmailRecipientLists($folder);
+			$out_array = array_merge($out_array, $tokenRecordss); 
+		}
+		
+		
+		
+		
+		$this->view->assign('tokenRecordss', $out_array);
 	}
 
 	/**
