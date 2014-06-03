@@ -87,10 +87,10 @@ class PushWooshCaller {
         	'notifications' => array(
                     array(
                         'send_date' => $this->date,
-                        'content' => array(
-                        	"en" => $this->text_en,
-                        	"de" => $this->text_de
-                        ),
+                        'content' => $this->text_de,
+                        	//"en" => $this->text_en,
+                        	//"de" => $this->text_de
+                        //),
                         'ios_trim_content' => 0,
                         //'ios_badges' => 3,
                         'data' => array( 'custom' => 'q8y_pushwoosh' ),

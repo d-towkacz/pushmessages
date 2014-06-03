@@ -100,6 +100,12 @@ class TokenRecordsController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
 	   $pushwoosh = new \PushWooshCaller;
 	   $POSTvars = $this->request->getArguments();
 	   
+	   if (count($POSTvars['active']) < 1)
+	   {
+		   $this->flashMessageContainer->add('','No selected active users. Please, select from list.', \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR );
+		   $this->redirect('list');    
+	   }
+	   
 	   
 	   $dmail = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance("TYPO3\Q8yPushmessages\Domain\Repository\DmailRepository");
 	   $devices = $dmail->selectActiveTokens($POSTvars['active']); 
