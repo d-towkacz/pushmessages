@@ -15,9 +15,7 @@ jQuery(document).ready(function(){
 		aoColumnDefs: [{
 			bSortable: false,
 			aTargets: ['notSortable']
-		}],
-     
-	}
+		}]}
 	/* DataTable plugin activate  */
 	jQuery('.selectionList, .translationList').dataTable(tableSetup);
 	if (jQuery(".gridTable tr").length < 20)
@@ -36,7 +34,7 @@ jQuery(document).ready(function(){
 		}
 	});
 	/* Maxlength plugin for textarea activate  */
-	jQuery("textarea").maxlength({max: 205});
+	jQuery("textarea").maxlength({max: 169});
 	/* Datetime picker plugin activate  */
 	jQuery('.datetime').datetimepicker();
 });
@@ -50,15 +48,17 @@ jQuery(document).ready(function(){
 
 <f:form action="sendMessages"  name="TokenRecords" object="{TokenRecords}">
 <div>
-Nachricht (DE): <br>
+Nachricht: <br>
 <f:form.textarea cols="60" rows="5" name="nachricht_de" value="" />
 <br>
 <br>
 
+<!-- 
 Nachricht (EN): <br>
 <f:form.textarea cols="60" rows="5" name="nachricht_en" value="" />
 </div>
 
+-->
 <div>
 
 </div>
