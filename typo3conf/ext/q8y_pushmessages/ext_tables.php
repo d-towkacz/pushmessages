@@ -10,7 +10,7 @@ if (TYPO3_MODE === 'BE') {
 	 */
 	\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
 		'TYPO3.' . $_EXTKEY,
-		'tools',	 // Make module a submodule of 'tools'
+		'txq8ycockpitM1',	 // Make module a submodule of 'tools'
 		'tokenrecords',	// Submodule key
 		'',						// Position
 		array(
