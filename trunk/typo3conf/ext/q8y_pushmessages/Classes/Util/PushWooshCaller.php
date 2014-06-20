@@ -42,6 +42,7 @@ class PushWooshCaller {
    public $text_de;
    public $text_en;
    public $devices = array();
+   public $all;
    
     #define('PW_AUTH', '3UJMiWGR2Y87aSikeSz/3jrlxrmQdS2AlnNYNTFY/w6bS5j83XGMGNq1vVThvDMcovnVMm8DswV2CzqnZDm2');
     #define('PW_APPLICATION', 'FB1B0-99CCD');
@@ -81,11 +82,8 @@ class PushWooshCaller {
     }
  
     public function sendPush() {
-		return $this->pwCall( 'createMessage', array(
-        	'application' => $this->PW_APPLICATION,
-        	'auth' => $this->AUTH_KEY,
-        	'notifications' => array(
-                    array(
+    	
+    	$out_array = array(
                         'send_date' => $this->date,
                         'content' => $this->text_de,
                         	//"en" => $this->text_en,
@@ -95,8 +93,21 @@ class PushWooshCaller {
                         //'ios_badges' => 3,
                         'data' => array( 'custom' => 'q8y_pushwoosh' ),
                         //'link' => 'http://pushwoosh.com/',
-                        'devices' => $this->devices,
-                    )
+                        //'devices' => $this->devices,
+                    );
+    	
+    	
+    	
+    	
+    	if ($this->all != 1)
+    	{
+			$out_array['devices'] = $this->devices;
+    	}
+		return $this->pwCall( 'createMessage', array(
+        	'application' => $this->PW_APPLICATION,
+        	'auth' => $this->AUTH_KEY,
+        	'notifications' => array( $out_array
+                    
                 )
             )
         );
