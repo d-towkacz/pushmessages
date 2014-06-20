@@ -27,16 +27,27 @@ jQuery(document).ready(function(){
 		var id_chk = jQuery(this).attr("id");
 		if (jQuery(this).prop("checked"))
 		{
-			jQuery(".active-"+id_chk).attr("name","tx_q8ypushmessages_tools_q8ypushmessagestokenrecords[active][]");
+			jQuery(".active-"+id_chk).val(jQuery(".active-"+id_chk+"_val").val());
 		} else
 		{
-			jQuery(".active-"+id_chk).attr("name","")
+			jQuery(".active-"+id_chk).val("");
 		}
 	});
 	/* Maxlength plugin for textarea activate  */
 	jQuery("textarea").maxlength({max: 169});
 	/* Datetime picker plugin activate  */
 	jQuery('.datetime').datetimepicker();
+	jQuery("#devices_all_chk").change(function() {
+		
+		if (jQuery(this).prop("checked"))
+		{
+			jQuery(".dataTables_wrapper").css({"opacity":"0.4"});
+		} else 
+		{
+			jQuery(".dataTables_wrapper").css({"opacity":"1"});
+		}
+	});
+	
 });
 
 
@@ -64,9 +75,13 @@ Nachricht (EN): <br>
 </div>
 
 
-<br><br>
 
 
+
+
+<label style="color:red;cursor:pointer;"><f:form.checkbox id="devices_all_chk" name="divices_all" value="1"/>&nbsp;An alle Installationen versenden (auch Nicht-Mitglieder)</label>
+<br>
+<br>
 
 <table border="0" cellpadding="0" cellspacing="0" class="gridTable selectionList">
 		<thead>
@@ -85,7 +100,8 @@ Nachricht (EN): <br>
 					<td class="locale"><label for="locale-{iteration.index}" style="text-align:center;"><f:format.raw><strong>{token.users_count}</strong></f:format.raw><span class="t3-icon t3-icon-status t3-icon-status-user t3-icon-pagetree-folder-contains-fe_users"></span></label></td>
 					<td class="active"><label for="locale-{iteration.index}" style="text-align:center;"><strong><f:format.raw>{token.active_array}</f:format.raw></strong><span class="t3-icon t3-icon-status t3-icon-status-user t3-icon-pagetree-folder-contains-fe_users"></span></label>
 						<f:for each="{token.active_list}" as="active_user" iteration="cnt">
-						    <f:form.hidden name="" class="active-chk-{iteration.index}" value="{active_user}" />        
+						    <f:form.hidden name="" class="active-chk-{iteration.index}" name="active[]" value="" /> 
+						    <f:form.hidden name="" class="active-chk-{iteration.index}_val" value="{active_user}" />       
 						</f:for>
 					</td>
 				</tr>

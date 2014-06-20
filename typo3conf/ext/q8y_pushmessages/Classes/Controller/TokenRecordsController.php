@@ -99,13 +99,26 @@ class TokenRecordsController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
 		
 	   $pushwoosh = new \PushWooshCaller;
 	   $POSTvars = $this->request->getArguments();
+	   //$POSTvars = array_filter($POSTvars);
 	   
-	   if (count($POSTvars['active']) < 1)
+	   
+	   $POSTvars['active'] = array_filter($POSTvars['active'],
+  	   	   function($el){ return !empty($el);}
+	   );
+	   
+	 
+	   
+	   if ($POSTvars['divices_all'] == 1)
 	   {
-		   $this->flashMessageContainer->add('','No selected active users. Please, select from list.', \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR );
-		   $this->redirect('list');    
-	   }
+		   $pushwoosh->all = 1;
+	   } else {
 	   
+	   		if (count($POSTvars['active']) < 1)
+	   		{
+		   		$this->flashMessageContainer->add('','No selected active users. Please, select from list.', \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR );
+		   		$this->redirect('list');    
+	   		}
+	   }
 	   
 	   $dmail = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance("TYPO3\Q8yPushmessages\Domain\Repository\DmailRepository");
 	   $devices = $dmail->selectActiveTokens($POSTvars['active']); 
@@ -130,7 +143,14 @@ class TokenRecordsController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
 	   $result_push = $pushwoosh->sendPush();
 	   if ($result_push['status_code'] == 200)
 	   {
-		   $this->flashMessageContainer->add('Your message has been sent to '.count($devices).' users. ','Ok!', \TYPO3\CMS\Core\Messaging\FlashMessage::OK );
+		   if ($pushwoosh->all == 1)
+		   {
+			   $count_users = "all";
+		   } else {
+		       $count_users = count($devices);
+		   }
+		   
+		   $this->flashMessageContainer->add('Your message has been sent to '.$count_users.' users. ','Ok!', \TYPO3\CMS\Core\Messaging\FlashMessage::OK );
 	   } else
 	   {
 		   $this->flashMessageContainer->add($result_push['status_message'],'Error code: '.$result_push['status_code'], \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR );
