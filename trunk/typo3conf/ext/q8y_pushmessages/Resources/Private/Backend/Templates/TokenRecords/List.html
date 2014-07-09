@@ -99,10 +99,9 @@ Nachricht (EN): <br>
 					<td class="language"><label for="locale-{iteration.index}"><f:format.raw>{token.title}</f:format.raw></label></td>
 					<td class="locale"><label for="locale-{iteration.index}" style="text-align:center;"><f:format.raw><strong>{token.users_count}</strong></f:format.raw><span class="t3-icon t3-icon-status t3-icon-status-user t3-icon-pagetree-folder-contains-fe_users"></span></label></td>
 					<td class="active"><label for="locale-{iteration.index}" style="text-align:center;"><strong><f:format.raw>{token.active_array}</f:format.raw></strong><span class="t3-icon t3-icon-status t3-icon-status-user t3-icon-pagetree-folder-contains-fe_users"></span></label>
-						<f:for each="{token.active_list}" as="active_user" iteration="cnt">
-						    <f:form.hidden name="" class="active-chk-{iteration.index}" name="active[]" value="" /> 
-						    <f:form.hidden name="" class="active-chk-{iteration.index}_val" value="{active_user}" />       
-						</f:for>
+						<f:form.hidden name="" class="active-chk-{iteration.index}" name="active[]" value="" /> 
+						<f:form.hidden name="" class="active-chk-{iteration.index}_val" value="{token.active_comma}" />
+						
 					</td>
 				</tr>
 			</f:for>

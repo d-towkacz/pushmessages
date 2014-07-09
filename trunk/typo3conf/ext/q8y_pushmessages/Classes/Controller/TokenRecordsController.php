@@ -106,7 +106,11 @@ class TokenRecordsController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
   	   	   function($el){ return !empty($el);}
 	   );
 	   
-	 
+	   $in_active = array();
+	   foreach ($POSTvars['active'] as $it)
+	   {
+	   	   $in_active = array_merge($in_active, explode(",", $it));
+	   }
 	   
 	   if ($POSTvars['divices_all'] == 1)
 	   {
@@ -121,7 +125,7 @@ class TokenRecordsController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
 	   }
 	   
 	   $dmail = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance("TYPO3\Q8yPushmessages\Domain\Repository\DmailRepository");
-	   $devices = $dmail->selectActiveTokens($POSTvars['active']); 
+	   $devices = $dmail->selectActiveTokens($in_active); 
 	   
 
 	   # Set PushWoosh settings
