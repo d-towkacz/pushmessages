@@ -72,7 +72,7 @@ class DmailRepository extends \tx_directmail_recipient_list {
 				$count_active = count($array_active);
 				if ($count_active > 0) {
 					$out_array[$array_count]['active_array'] = "<span style='color:green;'>".$count_active."</span>";
-					$out_array[$array_count]['active_list'] = $array_active;
+					$out_array[$array_count]['active_comma'] = implode(',',$array_active);
 				}
 				
 				
